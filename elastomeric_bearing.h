@@ -3,30 +3,10 @@
 
 // #pragma once
 #include<iostream>
-#include<string>
 #include<fstream>
 #include<array>
 #include<cmath>
-
-//batasan tegangan ijin
-//deformasi geser tak terkekang
-const double stress_allowable_unconfined = 7.0; //MPa 
-
-//deformasi geser terkekang
-const double stress_allowable_confined = 7.7; //MPa 
-
-//rotasi layan
-const double rot_transversal = 0.005; //rad
-const double rot_longitudinal = 0.005; //rad
-
-//lapisan elastomer
-const double n_layer_interior = 12.; //pieces
-const double n_layer_exterior = 0.; //pieces
-
-//lapisan pelat baja
-constexpr double layer_steel_plate_thickness = 3.0; //mm
-constexpr double fy__ = 240.; // MPa  //batas ulur pelata baja
-constexpr double delta_fth = 31.; // MPa  //constant amplitude fatique threshold
+#include"data.hpp"
 
 namespace Elastomeric_Bearing{
     struct Loads
@@ -45,12 +25,12 @@ namespace Elastomeric_Bearing{
     struct MaterialELastomeric
     {
         friend class Calculation;
-        MaterialELastomeric(std::string hardness_, double shear_mod_, double pt, double del_stress_lim) : hardness{hardness_}, shear_mod{shear_mod_}, p_tensionload_unfactored{pt}, delamination_stress_limit{del_stress_lim}{}
+        MaterialELastomeric(std::string hardness_, double shear_mod_, double pt, double del_stress_lim) : hardness{hardness_}, shear_mod{shear_mod_}, p_compressionload_unfactored{pt}, delamination_stress_limit{del_stress_lim}{}
         
         private:
         std::string hardness;
         double shear_mod; //MPa
-        double p_tensionload_unfactored; //kN //total beban tekan unfactored
+        double p_compressionload_unfactored; //kN //total beban tekan unfactored
         double delamination_stress_limit; // MPa //batas tegangan delaminasi
     };
 

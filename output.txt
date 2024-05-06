@@ -8,7 +8,7 @@ Diketahui:
    Beban Hidup (LL)                         : 1200 kN
    Perpindahan Memanjang Jembatan           : 100 mm
    Rotasi                                   : 0.015 rad
-   Lebar Girder                             : 750 mm
+   Lebar Girder (sayap gelagar)             : 750 mm
 
    Data Fisik Elastomer:
    Hardness                                 : 55 Shore A
@@ -18,9 +18,15 @@ Diketahui:
 
 Perhitungan:
 1. Luas Area Elastomer yang diperlukan:
+   Syarat lebar(W) < Lebar saya girder
+   lebar elastomer (W) = 725 mm < 750 mm  [ OK ]
    Aperlu > (Pt x 1000 / batas tegangan delaminasi = 514286 mm2
    Luas Elastomer = 536500 mm2  > 514286 mm2  [OK]
-2. Asumsi Dimensi - dimnensi dalam perletakan elastomer berdasarkan perhitungan Luas diatas:
+   minimal panjang elastomer (L) yang disyaratkan : 709.36 mm
+   digunakan panjang elastomer (L) : 740 mm
+   panjang elastomer (L) = 740 mm < 709.36 mm  [ NOT OK ]
+   Aperlu > (Pt x 1000 / batas tegangan delaminasi = 514286 mm2
+2. Asumsi Dimensi - dimensi dalam perletakan elastomer berdasarkan perhitungan Luas diatas:
    Lebar(W)                                 : 725 mm
    Panjang(L)                               : 740 mm
    Tebal                                    : 200 mm
@@ -87,7 +93,7 @@ Perhitungan:
 9. Rekapitulasi Hasil Perhitungan:
    Sifat Fisik:
    Mutu pelat baja (fy)            = 240 MPa
-   Konstanta Amplitudo Fatik (fth) = 0.6 MPa
+   Konstanta Amplitudo Fatik (fth) = 31 MPa
    Modulus Geser Elastomer (G)     = 0.6 MPa
 
    Geometri:
@@ -98,4 +104,4 @@ Perhitungan:
    Jumlah Lapisan Karet Internal          = 12 buah
    Tebal Pelat Baja yang digunakan        = 3 mm
    Jumlah Lapisan Pelat Baja              = 13 buah
--------------------------------------------------Finish--------------------------------------------
+-----------------------------------------------Finish----------------------------------------------

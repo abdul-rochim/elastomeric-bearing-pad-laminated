@@ -3,9 +3,14 @@
 double Elastomeric_Bearing::Calculation::area_elastomeric(){
     std::ofstream myfile;
     myfile.open("output.txt", std::ios::app);
-    double area_req = p_tensionload_unfactored * 1000. / delamination_stress_limit;
+    double area_req = p_compressionload_unfactored * 1000. / delamination_stress_limit;
     myfile << "Perhitungan:\n";
     myfile << "1. Luas Area Elastomer yang diperlukan:\n";
+    myfile << "   Syarat lebar(W) < Lebar saya girder\n";
+    if (w < flange_width)
+        myfile << "   lebar elastomer (W) = " << w << " mm < " << flange_width << " mm  [ OK ]\n";
+    else
+        myfile << "   lebar elastomer (W) = " << w << " mm > " << flange_width << " mm  [ NOT OK ]\n";
     myfile << "   Aperlu > (Pt x 1000 / batas tegangan delaminasi = " << area_req << " mm2\n";
     double area_used = area_elastomer;
     auto area_lambda = [area_used, area_req]() {
@@ -15,13 +20,20 @@ double Elastomeric_Bearing::Calculation::area_elastomeric(){
             return " [Not OK]";
     };
     myfile << "   Luas Elastomer = " << area_used << " mm2  > " << area_req << " mm2 " << area_lambda() << "\n";
+    myfile << "   minimal panjang elastomer (L) yang disyaratkan : " << area_req/ w << " mm\n";
+    myfile << "   digunakan panjang elastomer (L) : " << l << " mm\n";
+    if (l < area_req/ w)
+        myfile << "   panjang elastomer (L) = " << l << " mm > " << area_req/ w << " mm  [ OK ]\n";
+    else
+        myfile << "   panjang elastomer (L) = " << l << " mm < " << area_req/ w << " mm  [ NOT OK ]\n";
+    myfile << "   Aperlu > (Pt x 1000 / batas tegangan delaminasi = " << area_req << " mm2\n";
     return area_used;
 }
 
 void Elastomeric_Bearing::Calculation::print_dimensionelastomeric() const{
     std::ofstream myfile;
     myfile.open("output.txt", std::ios::app);
-    myfile << "2. Asumsi Dimensi - dimnensi dalam perletakan elastomer berdasarkan perhitungan Luas diatas:\n";
+    myfile << "2. Asumsi Dimensi - dimensi dalam perletakan elastomer berdasarkan perhitungan Luas diatas:\n";
     myfile << "   Lebar(W)                                 : " << w << " mm\n";
     myfile << "   Panjang(L)                               : " << l << " mm\n";
     myfile << "   Tebal                                    : " << t << " mm\n";
@@ -198,7 +210,7 @@ void Elastomeric_Bearing::Calculation::summary() const{
     myfile << "9. Rekapitulasi Hasil Perhitungan:\n";
     myfile << "   Sifat Fisik:\n";
     myfile << "   Mutu pelat baja (fy)            = " << fy << " MPa\n";
-    myfile << "   Konstanta Amplitudo Fatik (fth) = " << shear_mod << " MPa\n";
+    myfile << "   Konstanta Amplitudo Fatik (fth) = " << delta_fth << " MPa\n";
     myfile << "   Modulus Geser Elastomer (G)     = " << shear_mod << " MPa\n\n";
 
     myfile << "   Geometri:\n";
@@ -220,12 +232,12 @@ void Elastomeric_Bearing::Calculation::print_data() const{
     myfile << "   Beban Hidup (LL)                         : " << p_liveload << " kN\n";
     myfile << "   Perpindahan Memanjang Jembatan           : " << delta_0 << " mm\n";
     myfile << "   Rotasi                                   : " << tetha << " rad\n";
-    myfile << "   Lebar Girder                             : " << flange_width << " mm\n\n";
+    myfile << "   Lebar Girder (sayap gelagar)             : " << flange_width << " mm\n\n";
 
     myfile << "   Data Fisik Elastomer:\n";
     myfile << "   Hardness                                 : " << hardness << "\n";
     myfile << "   Modulus Geser(G)                         : " << shear_mod << " MPa\n";
-    myfile << "   Total Beban Kompresi (PT)                : " << p_tensionload_unfactored << " kN\n";
+    myfile << "   Total Beban Kompresi (PT)                : " << p_compressionload_unfactored << " kN\n";
     myfile << "   Batas Tegangan Delaminasi                : " << delamination_stress_limit << " MPa\n\n";
     myfile.close();
 } 
@@ -242,7 +254,8 @@ void Elastomeric_Bearing::running(){
     myfile.close();
 
     double n = n_layer_interior + n_layer_exterior;
-    Elastomeric_Bearing::Calculation calc = Elastomeric_Bearing::Calculation(2400., 1200., 100., 0.015, 750., "55 Shore A", 0.6, 3600., 7., 725., 740., 200., 16., 4., n, fy__);
+
+    Elastomeric_Bearing::Calculation calc = Elastomeric_Bearing::Calculation(dead_load, live_load, horizontal_deformation, rotation, beam_width, hardness, modulus_shear, total_compression_load, limit_of_delamination_stress, width_w, length_l, total_rubber_thickness_t, rubber_layer_thickness, cover_layer_thickness, n, fy__);
     calc.print_data();
     calc.area_elastomeric();
     calc.print_dimensionelastomeric();
