@@ -39,7 +39,7 @@ void Elastomeric_Bearing::Calculation::print_dimensionelastomeric() const{
     myfile << "   Tebal                                    : " << t << " mm\n";
     myfile << "   Tebal Lapisan (hri)                      : " << layer_thickness << " mm\n";
     myfile << "   Tebal Lapisan penutup (h cover)          : " << h_cover << " mm\n";
-    myfile << "   Jumlah Lapisan (n)                       : " << n_layer << " mm\n";
+    myfile << "   Jumlah Lapisan (n)                       : " << n_layer << " buah\n";
     myfile << "   Fy pelat baja                            : " << fy << " mm\n\n";
     myfile.close();
 }
