@@ -4,104 +4,115 @@
 |                                      copyrights : Abdul Rochim                                  |
 ---------------------------------------------------------------------------------------------------
 Diketahui:
-   Beban Mati (DL)                          : 2400 kN
-   Beban Hidup (LL)                         : 1200 kN
-   Perpindahan Memanjang Jembatan           : 100 mm
+   Beban Mati (DL)                          : 50 kN
+   Beban Hidup (LL)                         : 40 kN
+   Perpindahan Memanjang Jembatan           : 15 mm
    Rotasi                                   : 0.015 rad
-   Lebar Girder (sayap gelagar)             : 750 mm
+   Lebar Girder (sayap gelagar)             : 200 mm
 
    Data Fisik Elastomer:
-   Hardness                                 : 55 Shore A
+   Hardness                                 : 50 +-5
    Modulus Geser(G)                         : 0.6 MPa
-   Total Beban Kompresi (PT)                : 3600 kN
+   Total Beban Kompresi (PT)                : 90 kN
    Batas Tegangan Delaminasi                : 7 MPa
 
 Perhitungan:
 1. Luas Area Elastomer yang diperlukan:
    Syarat lebar(W) < Lebar saya girder
-   lebar elastomer (W) = 725 mm < 750 mm  [ OK ]
-   Aperlu > (Pt x 1000 / batas tegangan delaminasi = 514286 mm2
-   Luas Elastomer = 536500 mm2  > 514286 mm2  [OK]
-   minimal panjang elastomer (L) yang disyaratkan : 709.36 mm
-   digunakan panjang elastomer (L) : 740 mm
-   panjang elastomer (L) = 740 mm < 709.36 mm  [ NOT OK ]
-   Aperlu > (Pt x 1000 / batas tegangan delaminasi = 514286 mm2
+   lebar elastomer (W) = 175 mm <= 200 mm  [ OK ]
+   Aperlu > (Pt x 1000 / batas tegangan delaminasi = 12857.1 mm2
+   Luas Elastomer = 35000 mm2  > 12857.1 mm2  [OK]
+   minimal panjang elastomer (L) yang disyaratkan : 73.4694 mm
+   digunakan panjang elastomer (L) : 200 mm
+   panjang elastomer (L) = 200 mm >= 73.4694 mm  [ OK ]
+   Aperlu > (Pt x 1000 / batas tegangan delaminasi = 12857.1 mm2
 2. Asumsi Dimensi - dimensi dalam perletakan elastomer berdasarkan perhitungan Luas diatas:
-   Lebar(W)                                 : 725 mm
-   Panjang(L)                               : 740 mm
-   Tebal                                    : 200 mm
-   Tebal Lapisan (hri)                      : 16 mm
-   Tebal Lapisan penutup (h cover)          : 4 mm
-   Jumlah Lapisan (n)                       : 12 mm
+   Lebar(W)                                 : 175 mm
+   Panjang(L)                               : 200 mm
+   Tebal                                    : 39 mm
+   Tebal Lapisan (hri)                      : 9 mm
+   Tebal Lapisan penutup (h cover)          : 6 mm
+   Jumlah Lapisan (n)                       : 3 buah
    Fy pelat baja                            : 240 mm
 
 3. Hitung Shape Factor (Faktor Bentuk) :
    S     = A / (Ip x hri)
    Ip    = 2 x (L+W)
-   S     = 11.4441
-      4  < 11.4441 <= 12 [ OK ]
+   S     = 5.18519
+      4  < 5.18519 <= 12 [ OK ]
 4. Cek Tegangan Ijin:
    syarat modulus geser: 0.6 MPa <=  G  <=  1.3 MPa
    G = 0.6 MPa, sehingga syarat 0.6 MPa <=  G  <= 1.3 MPa  [ OK ]
 
-   Stress_s  = (Pdl + Pll) / A   = 6.71016 MPa
-   Stress_l  = Pll/ A            = 2.23672 MPa
+   Stress_s  = (Pdl + Pll) / A   = 2.57143 MPa
+   Stress_l  = Pll/ A            = 1.14286 MPa
    Bantalan dengan deformasi geser yang tidak dikekang
-   syarat stress_s <= 7 MPa, sehingga 6.71016 MPa <= 7 MPa  [ OK ]
-   syarat stress_s <= 1.0 G S, sehingga 6.71016 MPa <= 6.86647 MPa  [ OK ]
+   syarat stress_s <= 7 MPa, sehingga 2.57143 MPa <= 7 MPa  [ OK ]
+   syarat stress_s <= 1.0 G S, sehingga 2.57143 MPa <= 3.11111 MPa  [ OK ]
 
    Bantalan dengan deformasi geser yang dikekang
-   syarat stress_s <= 7.7 MPa, sehingga 6.71016 MPa <= 7.7 MPa  [ OK ]
-   syarat stress_s <= 1.1 G S, sehingga 6.71016 MPa <= 7.55311 MPa  [ OK ]
+   syarat stress_s <= 7.7 MPa, sehingga 2.57143 MPa <= 7.7 MPa  [ OK ]
+   syarat stress_s <= 1.1 G S, sehingga 2.57143 MPa <= 3.42222 MPa  [ OK ]
 
 5. Cek Deformasi Geser:
-   Total Deformasi Geser Rencana, delta_0 = 100 mm
-   Deformasi ijin = 2 x delta_0 = 200 mm
+   Total Deformasi Geser Rencana, delta_0 = 15 mm
+   Deformasi ijin = 2 x delta_0 = 30 mm
 
    Ketebalan total elastomer (hrt) = (jumlah tebal lapisan internal + jumlah tebal cover)
-   hrt = 200 mm
-   hrt >= 2 x delta_0,  200 mm >= 200 mm  [ OK ]
+   hrt = 39 mm
+   hrt >= 2 x delta_0,  39 mm >= 30 mm  [ OK ]
 
    syarat h_cover < 0.7 hri
-   4 mm < 11.2 mm  [ OK ]
+   6 mm < 6.3 mm  [ OK ]
+
+   Elastomer harus bisa menahan gaya horisontal.
+   Kebutuhan Bolt(angkur):
+   fy bolt       = 500 MPa
+   diameter bolt = 22 buah
+   Jumlah angkur (req.) = Gaya horizontal / (0.6 Av fy)
+                        = 0.30691 buah
+   Jumlah angkur pakai = 4 buah  >=  0.30691 buah  [ OK ]
 
 6. Cek Rotasi:
    syarat stress_s >= 0.5 G.S (L/hri)^2  tetha_sx/ jumlah lapisan
-   6.71016 MPa >= 6.11992 MPa  [ OK ]
+   2.57143 MPa >= 2.56059 MPa  [ OK ]
 
    syarat stress_s >= 0.5 G.S (W/hri)^2  tetha_sz/ jumlah lapisan
-   6.71016 MPa >= 5.87433 MPa  [ OK ]
+   2.57143 MPa >= 1.96045 MPa  [ OK ]
 
 7. Cek Stabilitas:
    syarat H <= L/3
-   239 mm <= 246.667 mm  [ OK ]
+   47 mm <= 66.6667 mm  [ OK ]
 
    syarat H <= W/3
-   239 mm <= 241.667 mm  [ OK ]
+   47 mm <= 58.3333 mm  [ OK ]
 
 8. Menentukan Tebal Pelat:
    Kondisi Layan
    hs_min >= 3 hr_max. stress_s/ fy
-   hs_min >= 1.34203 mm
-   3 mm > 1.34203 mm  [ OK ]
+   hs_min >= 0.289286 mm
+   2 mm > 0.289286 mm  [ OK ]
 
    Kondisi Fatik
    hs_min >= 2 hr_max. stress_l/ fth
-   hs_min >= 2.30887 mm
-   3 mm > 2.30887 mm  [ OK ]
+   hs_min >= 0.663594 mm
+   2 mm > 0.663594 mm  [ OK ]
 
 9. Rekapitulasi Hasil Perhitungan:
    Sifat Fisik:
    Mutu pelat baja (fy)            = 240 MPa
    Konstanta Amplitudo Fatik (fth) = 31 MPa
    Modulus Geser Elastomer (G)     = 0.6 MPa
+   Mutu Bolt (fy)                  = 500 MPa
+   Diameter Bolt                   = 22 buah
+   Jumlah Bolt                     = 4 buah
 
    Geometri:
-   Dimensi Bantalan/Elastomer (L x W x H) = 725 mm  x 740 mm x 239 mm
-   Tebal Lapisan Penutup Atas             = 4 mm
-   Tebal Lapisan Penutup Bawah            = 4 mm
-   Tebal Lapisan Internal                 = 16 mm
-   Jumlah Lapisan Karet Internal          = 12 buah
-   Tebal Pelat Baja yang digunakan        = 3 mm
-   Jumlah Lapisan Pelat Baja              = 13 buah
+   Dimensi Bantalan/Elastomer (L x W x H) = 175 mm  x 200 mm x 47 mm
+   Tebal Lapisan Penutup Atas             = 6 mm
+   Tebal Lapisan Penutup Bawah            = 6 mm
+   Tebal Lapisan Internal                 = 9 mm
+   Jumlah Lapisan Karet Internal          = 3 buah
+   Tebal Pelat Baja yang digunakan        = 2 mm
+   Jumlah Lapisan Pelat Baja              = 4 buah
 -----------------------------------------------Finish----------------------------------------------

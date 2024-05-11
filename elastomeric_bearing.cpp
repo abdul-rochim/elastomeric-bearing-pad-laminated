@@ -7,8 +7,8 @@ double Elastomeric_Bearing::Calculation::area_elastomeric(){
     myfile << "Perhitungan:\n";
     myfile << "1. Luas Area Elastomer yang diperlukan:\n";
     myfile << "   Syarat lebar(W) < Lebar saya girder\n";
-    if (w < flange_width)
-        myfile << "   lebar elastomer (W) = " << w << " mm < " << flange_width << " mm  [ OK ]\n";
+    if (w <= flange_width)
+        myfile << "   lebar elastomer (W) = " << w << " mm <= " << flange_width << " mm  [ OK ]\n";
     else
         myfile << "   lebar elastomer (W) = " << w << " mm > " << flange_width << " mm  [ NOT OK ]\n";
     myfile << "   Aperlu > (Pt x 1000 / batas tegangan delaminasi = " << area_req << " mm2\n";
@@ -22,8 +22,8 @@ double Elastomeric_Bearing::Calculation::area_elastomeric(){
     myfile << "   Luas Elastomer = " << area_used << " mm2  > " << area_req << " mm2 " << area_lambda() << "\n";
     myfile << "   minimal panjang elastomer (L) yang disyaratkan : " << area_req/ w << " mm\n";
     myfile << "   digunakan panjang elastomer (L) : " << l << " mm\n";
-    if (l < area_req/ w)
-        myfile << "   panjang elastomer (L) = " << l << " mm > " << area_req/ w << " mm  [ OK ]\n";
+    if (l >= area_req/ w)
+        myfile << "   panjang elastomer (L) = " << l << " mm >= " << area_req/ w << " mm  [ OK ]\n";
     else
         myfile << "   panjang elastomer (L) = " << l << " mm < " << area_req/ w << " mm  [ NOT OK ]\n";
     myfile << "   Aperlu > (Pt x 1000 / batas tegangan delaminasi = " << area_req << " mm2\n";
@@ -132,6 +132,33 @@ void Elastomeric_Bearing::Calculation::deformation_shear() const{
         myfile << "   syarat h_cover < 0.7 hri\n";
         myfile << "   " << h_cover << " mm > " << 0.7 * layer_thickness << " mm  [ NOT OK ]\n\n";
     }
+    myfile << "   Elastomer harus bisa menahan gaya horisontal.\n";
+
+    myfile << "   Kebutuhan Bolt(angkur):\n";
+    myfile << "   fy bolt       = " << fy_bolt << " MPa\n";
+    myfile << "   diameter bolt = " << dia_bolt << " buah\n";
+    double Av = 0.25 * pi<double> * std::pow(dia_bolt, 2);
+    double n_bolt_req = force_trans * 1000./ (0.6 * Av * fy_bolt);
+    myfile << "   Jumlah angkur (req.) = Gaya horizontal / (0.6 Av fy)\n";
+    myfile << "                        = " << n_bolt_req << " buah\n";
+    if(n_bolt >= n_bolt_req)
+        myfile << "   Jumlah angkur pakai = " << n_bolt << " buah  >=  " << n_bolt_req << " buah  [ OK ]\n\n";
+    else
+        myfile << "   Jumlah angkur pakai = " << n_bolt << " buah  <  " << n_bolt_req << " buah  [  NOT OK  ]\n\n";
+
+    // double delta_s_allow = (coef_friction * p_deadload)/ (w*l) / (shear_mod / hrt); //beban vertikal minimum
+    // double delta_s_trans = force_trans/ (w*l) / (shear_mod / hrt);
+    // myfile << "   Modulus geser = tegangan geser/ gamma geser\n";
+    // myfile << "   delta_s_allow = (coef_friction * P_min/A) / (G/hrt) = " << delta_s_allow << " mm\n";
+    // myfile << "   delta_s_trans = (F/A) / (G/hrt) = " << delta_s_trans << " mm\n";
+    // if(delta_s_allow >= delta_s_trans){
+    //     myfile << "   syarat delta_s_allow > deformasi horisontal\n";
+    //     myfile << "   " << delta_s_allow << " mm >= " << delta_s_trans << " mm  [ OK ]\n\n";
+    // }
+    // else{
+    //     myfile << "   syarat delta_s_allow > deformasi horisontal\n";
+    //     myfile << "   " << delta_s_allow << " mm < " << delta_s_trans << " mm  [ NOT OK ]\n\n";
+    // }
 }
 
 void Elastomeric_Bearing::Calculation::rotation_allowable(){
@@ -211,7 +238,10 @@ void Elastomeric_Bearing::Calculation::summary() const{
     myfile << "   Sifat Fisik:\n";
     myfile << "   Mutu pelat baja (fy)            = " << fy << " MPa\n";
     myfile << "   Konstanta Amplitudo Fatik (fth) = " << delta_fth << " MPa\n";
-    myfile << "   Modulus Geser Elastomer (G)     = " << shear_mod << " MPa\n\n";
+    myfile << "   Modulus Geser Elastomer (G)     = " << shear_mod << " MPa\n";
+    myfile << "   Mutu Bolt (fy)                  = " << fy_bolt << " MPa\n";
+    myfile << "   Diameter Bolt                   = " << dia_bolt << " buah\n";
+    myfile << "   Jumlah Bolt                     = " << n_bolt << " buah\n\n";
 
     myfile << "   Geometri:\n";
     myfile << "   Dimensi Bantalan/Elastomer (L x W x H) = " << w << " mm " << " x " << l << " mm x " << h_total << " mm\n";

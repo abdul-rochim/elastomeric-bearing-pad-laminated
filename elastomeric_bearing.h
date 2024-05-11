@@ -5,8 +5,13 @@
 #include<iostream>
 #include<fstream>
 #include<array>
-#include<cmath>
+#define _USE_MATH_DEFINES // for C++
+#include <cmath>
+#include<algorithm>
 #include"data.hpp"
+
+template<typename T>
+constexpr T pi = T(3.1415926535897932385);
 
 namespace Elastomeric_Bearing{
     struct Loads
@@ -67,6 +72,7 @@ namespace Elastomeric_Bearing{
         double rotation_trans = 0.;
         double hrt = 0.;
         double h_total = 0.;
+        double force_trans = 0.;
 
         Calculation(double dl, double ll, double delta_0_, double tetha_, double f_width,
                     std::string hardness_, double shear_mod_, double pt, double del_stress_lim,
@@ -82,6 +88,7 @@ namespace Elastomeric_Bearing{
             this->rotation_trans = rot_transversal;
             this->hrt = layer_thickness * n_layer_interior + 2 * h_cover;
             this->h_total = layer_thickness * n_layer_interior + 2 * h_cover + layer_steel_plate_thickness * (n_layer_interior + 1.);
+            this->force_trans = force_trans_;
         }
         
         double area_elastomeric();
